@@ -1,3 +1,4 @@
+/resources/application.properties
 /target/
 .gradle
 build/
