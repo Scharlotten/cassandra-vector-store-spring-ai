@@ -1,4 +1,4 @@
-# AI powered expert system demo
+# AI powered expert system demo - With Cassandra Vector DB 
 
 Spring AI re-implementation of https://github.com/marcushellberg/java-ai-playground
 
@@ -19,6 +19,19 @@ This app shows how you can use [Spring AI](https://github.com/spring-projects/sp
 
 Run the app by running `Application.java` in your IDE or `mvn` in the command line.
 
+### Cassandra Vector Store parameters with HCD (Datastax's latest enterprise release of Cassandra)
+
+```
+spring.threads.virtual.enabled=true
+spring.cassandra.contact-points=<your-contact-point>
+# Port 9042 by default
+spring.cassandra.port=<cassandra_port> 
+spring.cassandra.local-datacenter=<dc_name>
+spring.cassandra.username=hcd-superuser
+spring.cassandra.password=<yourPassword>
+spring.ai.vectorstore.cassandra.initialize-schema=true
+```
+
 ### With OpenAI Chat
 
 Add to the POM the Spring AI Open AI boot starter:
@@ -37,30 +50,6 @@ spring.ai.openai.api-key=${OPENAI_API_KEY}
 spring.ai.openai.chat.options.model=gpt-4o
 ```
 
-### WIth VertexAI Gemini Chat
-
-Add to the POM the Spring AI VertexAI Gemini and Onnx Transformer Embedding boot starters:
-
-```xml
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-vertex-ai-gemini-spring-boot-starter</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-transformers-spring-boot-starter</artifactId>
-</dependency>
-```
-
-Add the VertexAI Gemini configuration to the `application.properties`:
-
-```
-spring.ai.vertex.ai.gemini.project-id=${VERTEX_AI_GEMINI_PROJECT_ID}
-spring.ai.vertex.ai.gemini.location=${VERTEX_AI_GEMINI_LOCATION}
-spring.ai.vertex.ai.gemini.chat.options.model=gemini-1.5-pro-001
-# spring.ai.vertex.ai.gemini.chat.options.model=gemini-1.5-flash-001
-```
 
 ### With Azure OpenAI Chat
 
@@ -81,53 +70,6 @@ spring.ai.azure.openai.endpoint=${AZURE_OPENAI_ENDPOINT}
 spring.ai.azure.openai.chat.options.deployment-name=gpt-4o
 ```
 
-### With Groq Chat
-
-It reuses the OpenAI Chat client but pointed to the Groq endpoint
-
-Add to the POM the Spring AI Open AI boot starter:
-
-```xml
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
-</dependency>
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-transformers-spring-boot-starter</artifactId>
-</dependency>
-```
-
-Add the Groq configuration to the `application.properties`:
-
-```
-spring.ai.openai.api-key=${GROQ_API_KEY}
-spring.ai.openai.base-url=https://api.groq.com/openai
-spring.ai.openai.chat.options.model=llama3-70b-8192
-```
-
-### With Anthropic Claude 3 Chat
-
-Add to the POM the Spring AI Anthropic Claude and Onnx Transformer Embedding boot starters:
-
-```xml
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-anthropic-spring-boot-starter</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-transformers-spring-boot-starter</artifactId>
-</dependency>
-```
-
-Add the Anthropic configuration to the `application.properties`:
-
-```
-spring.ai.anthropic.api-key=${ANTHROPIC_API_KEY}
-spring.ai.anthropic.chat.options.model=claude-3-5-sonnet-20240620
-```
 
 
 ## Build Jar
@@ -141,6 +83,3 @@ java -jar ./target/playground-flight-booking-0.0.1-SNAPSHOT.jar
 ```
 
 
-```
-docker run -it --rm --name postgres -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres ankane/pgvector
-```
